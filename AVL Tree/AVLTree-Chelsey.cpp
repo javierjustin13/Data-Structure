@@ -73,14 +73,14 @@ Node *insertNode(Node *curr, const char name[], int value) {
     
     int balance = calculateBalance(curr);
     if (balance > 1) {
-        if (value > curr->value) {
+        if (value > curr->left->value) {
             curr->left = leftRotate(curr->left);
         }
         return rightRotate(curr);
     }
     
     else if (balance < -1) {
-        if(value < curr->value) {
+        if(value < curr->right->value) {
             curr->right = rightRotate(curr->right);
         }
         return leftRotate(curr);
