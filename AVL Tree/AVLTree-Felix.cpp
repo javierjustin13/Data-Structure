@@ -86,6 +86,21 @@ Node* insertNode(Node* curr, Node* newNode) {
         }
     }
     return curr;
+
+    // if (balance > 1) {
+    //     if (value > curr->left->value) {
+    //         curr->left = leftRotate(curr->left);
+    //     }
+    //     return rightRotate(curr);
+    // }
+
+    // else if (balance < -1) {
+    //     if (value < curr->right->value) {
+    //         curr->right = rightRotate(curr->right);
+    //     }
+    //     return leftRotate(curr);
+    // }
+    // return curr;
 }
 
 Node* deleteNode(Node* curr, int id) {
