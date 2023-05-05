@@ -149,11 +149,24 @@ void checkName(Node* curr, char title[]) {
     checkName(curr->right, title);
 }
 
-Node* findNode(Node* curr, int toBeFind) {
+Node* findNodeByID(Node* curr, int toBeFind) {
     if (curr == NULL) return NULL;
     if (curr->id == toBeFind) return curr;
-    if (curr->id < toBeFind) return findNode(curr->right, toBeFind);
-    if (curr->id > toBeFind) return findNode(curr->left, toBeFind);
+    if (curr->id < toBeFind) return findNodeByID(curr->right, toBeFind);
+    if (curr->id > toBeFind) return findNodeByID(curr->left, toBeFind);
+}
+
+Node* titleFound = NULL;
+void findNodeByTitle(Node* curr, const char titleToBeFind[]) {
+    if (curr != NULL) {
+        if (strcmpi(curr->title, titleToBeFind) == 0)
+        {
+            titleFound = curr;
+            return;
+        }
+        findNodeByTitle(curr->left, titleToBeFind);
+        findNodeByTitle(curr->right, titleToBeFind);
+    }
 }
 
 void inOrder(Node* curr) {
@@ -162,6 +175,15 @@ void inOrder(Node* curr) {
         printf("ID: %d\nTitle: %s\nAuthor: %s\nYear: %d\nRating: %d\n\n", curr->id, curr->title, curr->author, curr->year, curr->rating);
         inOrder(curr->right);
     }
+}
+
+void titleChildCommand(Node* curr) {
+    printf("Left Descendant: \n");
+    if (curr->left == NULL) printf("none");
+    else inOrder(curr->left);
+    printf("Right Descendant: \n");
+    if (curr->right == NULL) printf("none");
+    else inOrder(curr->right);
 }
 
 int child = 0;
@@ -209,7 +231,7 @@ int main() {
         else if (strcmp(command, "FIND") == 0) {
             int idToBeFound;
             scanf("%d", &idToBeFound); getchar();
-            Node* nodeToBeFind = findNode(root, idToBeFound);
+            Node* nodeToBeFind = findNodeByID(root, idToBeFound);
             if (nodeToBeFind == NULL) printf("Book ID %d not found\n", idToBeFound);
             else {
                 printf("Book ID %d found\n", idToBeFound);
@@ -242,6 +264,19 @@ int main() {
             child = 0;
             countChild(root->right);
             printf("%d\n", child);
+        }
+
+        else if (strcmp(command, "TITLECHILD") == 0) {
+            char titleToBeSearched[100] = {};
+            titleFound = NULL;
+            scanf("%[^\n]", &titleToBeSearched); getchar();
+            findNodeByTitle(root, titleToBeSearched);
+            if (titleFound != NULL) {
+                titleChildCommand(titleFound);
+            }
+            else {
+                printf("There is no such title\n");
+            }
         }
     }
 
