@@ -101,14 +101,20 @@ Node* deleteNode(Node* curr, int id) {
             return curr;
         }
         else if (curr->left == NULL) {
-            Node *temp = curr->left;
-            free(curr);
-            return temp;
+            Node* temp = curr;
+            curr = curr->right;
+            free(temp);
+            temp = NULL;
         }
         else if (curr->right == NULL) {
-            Node* temp = curr->right;
-            free(curr);
-            return temp;
+            Node* temp = curr;
+            curr = curr->left;
+            free(temp);
+            temp = NULL;
+
+            // Node* temp = curr->left;
+            // free(curr);
+            // curr = temp;
         }
         else {
             Node* temp = curr->left;

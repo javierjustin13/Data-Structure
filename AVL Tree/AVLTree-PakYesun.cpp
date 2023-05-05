@@ -122,12 +122,12 @@ Data* deleteNode(Data* curr, int val) {
         }
         //Case 2: One child
         else if (curr->left == NULL) {
-            temp = curr->left;
+            temp = curr->right;
             free(curr);
             return temp;
         }
         else if(curr->right == NULL) {
-            temp = curr->right;
+            temp = curr->left;
             free(curr);
             return temp;
         }
